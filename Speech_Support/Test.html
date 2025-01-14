@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Voice Navigation with Mic Icon</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    section {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      scroll-behavior: smooth;
+    }
+    #home {
+      background-color: #a8d5e2;
+    }
+    #about {
+      background-color: #f2a6c0;
+    }
+    #services {
+      background-color: #c5e1a5;
+    }
+    #contact {
+      background-color: #ffcc80;
+    }
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: #333;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+      z-index: 10;
+    }
+    .mic-container {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #333;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      z-index: 10;
+    }
+    .mic-container:hover {
+      background: #555;
+    }
+    .mic-container img {
+      width: 30px;
+      height: 30px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Voice Navigation Demo</h1>
+    <p>Click the mic icon and say: "Go to Home," "Go to About," "Go to Services," or "Go to Contact".</p>
+  </header>
+  <section id="home">
+    <h2>Home Section</h2>
+  </section>
+  <section id="about">
+    <h2>About Section</h2>
+  </section>
+  <section id="services">
+    <h2>Services Section</h2>
+  </section>
+  <section id="contact">
+    <h2>Contact Section</h2>
+  </section>
+
+  <div class="mic-container" id="mic">
+    <img src="Mic.png" alt="Mic Icon">
+  </div>
+
+  <script>
+    // Check if the browser supports the Web Speech API
+    if ('webkitSpeechRecognition' in window) {
+      const recognition = new webkitSpeechRecognition();
+      recognition.continuous = false;
+      recognition.interimResults = false;
+      recognition.lang = 'en-US';
+
+      // Start recognition when the mic icon is clicked
+      document.getElementById('mic').onclick = () => {
+        recognition.start();
+        console.log('Listening for voice commands...');
+      };
+
+      // Handle speech recognition results
+      recognition.onresult = (event) => {
+        const command = event.results[0][0].transcript.toLowerCase();
+        console.log('Recognized command:', command);
+
+        // Perform navigation based on recognized command
+        if (command.includes('home')) {
+          document.getElementById('home').scrollIntoView();
+        } else if (command.includes('about')) {
+          document.getElementById('about').scrollIntoView();
+        } else if (command.includes('services')) {
+          document.getElementById('services').scrollIntoView();
+        } else if (command.includes('contact')) {
+          document.getElementById('contact').scrollIntoView();
+        } else {
+          alert('Command not recognized. Please say "Go to Home", "Go to About", "Go to Services", or "Go to Contact".');
+        }
+      };
+
+      recognition.onerror = (event) => {
+        console.error('Speech recognition error:', event.error);
+        alert('An error occurred. Please try again.');
+      };
+    } else {
+      alert('Your browser does not support the Web Speech API.');
+    }
+  </script>
+</body>
+</html>

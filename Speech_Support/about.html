@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      background-color: #f2a6c0;
+    }
+    header {
+      background: #333;
+      color: white;
+      padding: 1rem;
+    }
+    .mic-container {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #333;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    .mic-container:hover {
+      background: #555;
+    }
+    .mic-container img {
+      width: 30px;
+      height: 30px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>About</h1>
+    <p>Click the mic icon and say: "Go to Home," "Go to About," "Go to Services," or "Go to Contact".</p>
+  </header>
+  <h2>About Us</h2>
+
+  <div class="mic-container" id="mic">
+    <img src="Mic.png" alt="Mic Icon">
+  </div>
+
+  <script src="home.html"></script>
+</body>
+</html>

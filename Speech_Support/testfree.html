@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Voice Navigation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    section {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      scroll-behavior: smooth;
+    }
+    #home {
+      background-color: #a8d5e2;
+    }
+    #about {
+      background-color: #f2a6c0;
+    }
+    #services {
+      background-color: #c5e1a5;
+    }
+    #contact {
+      background-color: #ffcc80;
+    }
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: #333;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+      z-index: 1000;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Voice Navigation Demo</h1>
+    <p>Say: "Go to Home," "Go to About," "Go to Services," or "Go to Contact"</p>
+  </header>
+  <section id="home">
+    <h2>Home Section</h2>
+  </section>
+  <section id="about">
+    <h2>About Section</h2>
+  </section>
+  <section id="services">
+    <h2>Services Section</h2>
+  </section>
+  <section id="contact">
+    <h2>Contact Section</h2>
+  </section>
+
+  <script>
+    // Check if the browser supports the Web Speech API
+    if ('webkitSpeechRecognition' in window) {
+      const recognition = new webkitSpeechRecognition();
+      recognition.continuous = true; // Continuous listening
+      recognition.interimResults = false; // Don't show interim results
+      recognition.lang = 'en-US';
+
+      // Start speech recognition when the page loads
+      window.onload = () => {
+        recognition.start();
+        console.log('Speech recognition started. Listening for commands...');
+      };
+
+      // Handle speech recognition results
+      recognition.onresult = (event) => {
+        const command = event.results[event.results.length - 1][0].transcript.toLowerCase();
+        console.log('Recognized command:', command);
+
+        // Perform navigation based on recognized command
+        if (command.includes('home')) {
+          document.getElementById('home').scrollIntoView();
+        } else if (command.includes('about')) {
+          document.getElementById('about').scrollIntoView();
+        } else if (command.includes('services')) {
+          document.getElementById('services').scrollIntoView();
+        } else if (command.includes('contact')) {
+          document.getElementById('contact').scrollIntoView();
+        } else {
+          alert('Command not recognized. Please say "Go to Home", "Go to About", "Go to Services", or "Go to Contact".');
+        }
+      };
+
+      // Restart recognition on errors
+      recognition.onerror = (event) => {
+        console.error('Speech recognition error:', event.error);
+        recognition.start();
+      };
+
+      // Restart recognition when it ends
+      recognition.onend = () => {
+        console.log('Speech recognition ended. Restarting...');
+        recognition.start();
+      };
+    } else {
+      alert('Your browser does not support the Web Speech API.');
+    }
+  </script>
+</body>
+</html>

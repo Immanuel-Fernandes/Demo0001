@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      background-color: #a8d5e2;
+    }
+    header {
+      background: #333;
+      color: white;
+      padding: 1rem;
+    }
+    .mic-container {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #333;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    .mic-container:hover {
+      background: #555;
+    }
+    .mic-container img {
+      width: 30px;
+      height: 30px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Home</h1>
+    <p>Click the mic icon and say: "Go to Home," "Go to About," "Go to Services," or "Go to Contact".</p>
+  </header>
+  <h2>Welcome to the Home Page</h2>
+
+  <div class="mic-container" id="mic">
+    <img src="Mic.png" alt="Mic Icon">
+  </div>
+
+  <script>
+    if ('webkitSpeechRecognition' in window) {
+      const recognition = new webkitSpeechRecognition();
+      recognition.continuous = false;
+      recognition.interimResults = false;
+      recognition.lang = 'en-US';
+
+      document.getElementById('mic').onclick = () => {
+        recognition.start();
+        console.log('Listening for voice commands...');
+      };
+
+      recognition.onresult = (event) => {
+        const command = event.results[0][0].transcript.toLowerCase();
+        console.log('Recognized command:', command);
+
+        if (command.includes('home')) {
+          window.location.href = 'home.html';
+        } else if (command.includes('about')) {
+          window.location.href = 'about.html';
+        } else if (command.includes('services')) {
+          window.location.href = 'services.html';
+        } else if (command.includes('contact')) {
+          window.location.href = 'contact.html';
+        } else {
+          alert('Command not recognized. Please say "Go to Home", "Go to About", "Go to Services", or "Go to Contact".');
+        }
+      };
+
+      recognition.onerror = (event) => {
+        console.error('Speech recognition error:', event.error);
+        alert('An error occurred. Please try again.');
+      };
+    } else {
+      alert('Your browser does not support the Web Speech API.');
+    }
+  </script>
+</body>
+</html>
