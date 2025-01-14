@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Garden</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Spline Viewer -->
+  <div>
+    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.59/build/spline-viewer.js"></script>
+    <spline-viewer url="https://prod.spline.design/5gbci3HXthAraCEo/scene.splinecode"></spline-viewer>
+  </div>
+
+  <!-- Audio Player -->
+  <audio id="audio" autoplay loop>
+    <source src="audio.mp3" type="audio/mp3">
+    Your browser does not support the audio element.
+  </audio>
+
+  <div class="mic-container" id="mic">
+    <img src="Mic.png" alt="Mic Icon">
+  </div>
+
+  <script>
+    if ('webkitSpeechRecognition' in window) {
+        const recognition = new webkitSpeechRecognition();
+        recognition.continuous = true; // Allow continuous listening
+        recognition.interimResults = false;
+        recognition.lang = 'en-US';
+
+
+      const audio = document.getElementById('audio');
+      document.getElementById('mic').onclick = () => {
+        recognition.start();
+        console.log('Listening for voice commands...');
+      };
+
+      recognition.onresult = (event) => {
+        const command = event.results[0][0].transcript.toLowerCase();
+        console.log('Recognized command:', command);
+
+        if (command.includes('start audio')) {
+          if (audio.paused) {
+            audio.play();
+          } 
+        } else if (command.includes('stop audio') || command.includes('pause audio')) {
+          if (!audio.paused) {
+            audio.pause();
+          } else {
+            alert('Audio is already paused.');
+          }
+        } else {
+          alert('Command not recognized. Please try again.');
+        }
+      };
+
+      recognition.onerror = (event) => {
+        console.error('Speech recognition error:', event.error);
+        alert('An error occurred. Please try again.');
+      };
+    } else {
+      alert('Your browser does not support the Web Speech API.');
+    }
+  </script>
+</body>
+</html>
